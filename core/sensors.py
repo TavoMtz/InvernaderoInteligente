@@ -1,0 +1,1 @@
+# Lectura de DHT11/22 y capacitivo
