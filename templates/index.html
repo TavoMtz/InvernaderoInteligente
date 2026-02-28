@@ -1,1 +1,46 @@
-<!-- Tu frontend en HTML -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Invernadero</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+    <h1>🌱 Dashboard del Invernadero</h1>
+    
+    <div class="dashboard-container">
+        <div class="card">
+            <h2>Temperatura</h2>
+            <div class="value" id="temp">-- °C</div>
+        </div>
+
+        <div class="card">
+            <h2>Humedad</h2>
+            <div class="value" id="hum">-- %</div>
+        </div>
+
+        <div class="card">
+            <h2>Bomba de Agua (MotorA)</h2>
+            <div id="motorA" class="status-off">Apagado</div>
+        </div>
+
+        <div class="card">
+            <h2>Ventilación (MotorB)</h2>
+            <div id="motorB" class="status-off">Apagado</div>
+        </div>
+    </div>
+
+    <div class="ai-container">
+        <div class="card ai-card">
+            <h2 class="ai-title"> Análisis del Sistema Predictivo (Cultivo: Rábano)</h2>
+            <p id="sugerencia-texto" class="ai-text">
+                Analizando condiciones...
+            </p>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>

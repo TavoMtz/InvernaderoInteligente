@@ -1,0 +1,96 @@
+/* Estilos básicos para un diseño limpio y moderno */
+body { 
+font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+    background-color: #f4f7f6; 
+    color: #333; 
+    
+    /* MAGIA DE FLEXBOX PARA CENTRAR */
+    display: flex;
+    flex-direction: column;  /* Apila los elementos hacia abajo */
+    justify-content: center; /* Centra verticalmente */
+    align-items: center;     /* Centra horizontalmente */
+    
+    min-height: 100vh;       /* Ocupa el 100% de la altura de la ventana */
+    margin: 0;               /* Quita márgenes molestos del navegador */
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+h1 { 
+    color: #2c3e50; 
+    margin-bottom: 30px; 
+}
+
+.dashboard-container {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.card { 
+    background: white; 
+    padding: 25px; 
+    border-radius: 12px; 
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05); 
+    width: 220px; 
+    transition: transform 0.2s;
+    text-align: center;
+}
+
+.card:hover { 
+    transform: translateY(-5px); 
+}
+
+h2 { 
+    color: #7f8c8d; 
+    font-size: 1.2em; 
+    margin-top: 0;
+}
+
+.value { 
+    font-size: 2.5em; 
+    font-weight: bold; 
+    color: #27ae60; 
+    margin: 15px 0; 
+}
+
+/* Clases dinámicas para los motores */
+.status-on { 
+    color: #e74c3c; 
+    font-weight: bold; 
+    font-size: 1.5em; 
+}
+
+.status-off { 
+    color: #bdc3c7; 
+    font-weight: bold; 
+    font-size: 1.5em; 
+}
+
+/* =========================================
+   Nuevas clases para la sección de IA
+   ========================================= */
+
+.ai-container {
+    margin-top: 30px; 
+    display: flex; 
+    justify-content: center;
+}
+
+.ai-card {
+    width: 80%; 
+    max-width: 600px; 
+    text-align: left; 
+    border-left: 5px solid #3498db;
+}
+
+.ai-title {
+    color: #2980b9;
+}
+
+.ai-text {
+    font-size: 1.2em; 
+    color: #444; 
+    font-weight: 500;
+}
