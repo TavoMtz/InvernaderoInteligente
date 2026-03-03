@@ -4,12 +4,20 @@ import serial
 import json
 import time
 import os
+import requests  # <-- NUEVA LIBRERIA
 
 load_dotenv()
 app = Flask(__name__)
 
-# Configura tu puerto (el que te funcionó, ej. 'COM3')
+# Configura tu puerto (el que te funciono, ej. 'COM5')
 PUERTO_SERIAL = 'COM5' 
+
+# Cargar credenciales de Telegram desde el .env
+TELEGRAM_TOKEN = os.getenv('TELEGRAM_TOKEN')
+TELEGRAM_CHAT_ID = os.getenv('TELEGRAM_CHAT_ID')
+
+# Variable global para recordar el ultimo mensaje y evitar spam
+ultima_alerta = "" 
 
 try:
     arduino = serial.Serial(PUERTO_SERIAL, 9600, timeout=1)
@@ -19,31 +27,49 @@ except Exception as e:
     arduino = None
     print(f"Advertencia: No se pudo conectar al Arduino. Error: {e}")
 
-# --- NUEVA FUNCIÓN DE "IA" (Sistema Experto) ---
+# --- NUEVA FUNCION PARA ENVIAR TELEGRAM ---
+def enviar_mensaje_telegram(mensaje):
+    if not TELEGRAM_TOKEN or not TELEGRAM_CHAT_ID:
+        print("Faltan credenciales de Telegram en el .env")
+        return
+
+    url = f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendMessage"
+    payload = {
+        "chat_id": TELEGRAM_CHAT_ID,
+        "text": mensaje
+    }
+    try:
+        requests.post(url, json=payload)
+        print("Mensaje de Telegram enviado con exito.")
+    except Exception as e:
+        print(f"Error al enviar Telegram: {e}")
+
+# --- SISTEMA EXPERTO (IA BASICA) ---
 def generar_recomendacion(temp, hum):
-    """
-    Evalúa las condiciones actuales basándose en los parámetros biológicos del rábano.
-    """
+    global ultima_alerta
     alertas = []
     
-    # Evaluación de Temperatura
     if temp > 25.0:
-        alertas.append("⚠️ Temperatura alta para el rábano. Riesgo de estrés térmico.")
+        alertas.append("Riesgo de estres termico (Alta temp).")
     elif temp < 10.0:
-        alertas.append("❄️ Temperatura muy baja. El crecimiento del rábano puede detenerse.")
+        alertas.append("Temperatura muy baja. Crecimiento detenido.")
         
-    # Evaluación de Humedad
     if hum < 40.0:
-        alertas.append("💧 Humedad ambiente baja. Verifica la humedad del suelo pronto.")
+        alertas.append("Humedad baja. Se encendera la bomba.")
     elif hum > 80.0:
-        alertas.append("🌧️ Humedad muy alta. Riesgo de aparición de hongos en las hojas.")
+        alertas.append("Humedad muy alta. Riesgo de hongos.")
 
-    # Si no hay alertas, el sistema reporta un estado óptimo
     if not alertas:
-        return "✅ Condiciones óptimas para el ciclo de crecimiento del rábano."
+        estado_actual = "Condiciones optimas para el rabano."
+    else:
+        estado_actual = " | ".join(alertas)
     
-    # Unir todas las alertas generadas en un solo texto
-    return " | ".join(alertas)
+    # LOGICA ANTI-SPAM: Solo envia mensaje si el estado es diferente al anterior
+    if estado_actual != ultima_alerta:
+        enviar_mensaje_telegram(f"Actualizacion del Invernadero:\n{estado_actual}")
+        ultima_alerta = estado_actual # Actualiza la memoria
+        
+    return estado_actual
 
 
 @app.route('/')
@@ -62,7 +88,7 @@ def api_sensores():
         if linea:
             datos = json.loads(linea)
             
-            # --- INYECTAR LA RECOMENDACIÓN EN LOS DATOS ---
+            # Generar sugerencia y posible alerta a Telegram
             recomendacion = generar_recomendacion(datos['temperatura'], datos['humedad'])
             datos['sugerencia_ia'] = recomendacion
             
@@ -76,4 +102,5 @@ def api_sensores():
         return jsonify({"error": str(e)}), 500
 
 if __name__ == '__main__':
+    # use_reloader=False evita que el puerto COM se bloquee
     app.run(debug=True, port=5000, use_reloader=False)
