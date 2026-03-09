@@ -7,40 +7,40 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-
-    <h1>🌱 Dashboard del Invernadero</h1>
+    <img src="" alt="">
+    <h1>🪴IA Aplicada al control de un Invernadero</h1>
     
     <div class="dashboard-container">
         <div class="card">
-            <h2>Temperatura</h2>
+            <h2>Sensor: Temperatura</h2>
             <div class="value" id="temp">-- °C</div>
         </div>
 
         <div class="card">
-            <h2>Humedad</h2>
+            <h2>Sensor: Humedad</h2>
             <div class="value" id="hum">-- %</div>
         </div>
 
         <div class="card">
-            <h2>Bomba de Agua (MotorA)</h2>
+            <h2>Actuador: Bomba de Agua (MotorA)</h2>
             <div id="motorA" class="status-off">Apagado</div>
         </div>
 
         <div class="card">
-            <h2>Ventilación (MotorB)</h2>
+            <h2>Actuador: Ventilación (MotorB)</h2>
             <div id="motorB" class="status-off">Apagado</div>
         </div>
     </div>
 
     <div class="ai-container">
         <div class="card ai-card">
-            <h2 class="ai-title"> Análisis del Sistema Predictivo (Cultivo: Rábano)</h2>
+            <h2 class="ai-title"> Sistema predictivo mediante IA</h2>
             <p id="sugerencia-texto" class="ai-text">
                 Analizando condiciones...
             </p>
         </div>
     </div>
-
+<p>Autores: Gustavo Enrique Martinez Moreno & Danae</p>
     <script src="{{ url_for('static', filename='app.js') }}"></script>
 </body>
 </html>
