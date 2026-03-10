@@ -94,3 +94,12 @@ h2 {
     color: #444; 
     font-weight: 500;
 }
+
+.logo-esquina {
+    position: absolute; /* Permite mover la imagen libremente */
+    top: 20px;          /* Distancia desde el borde superior */
+    right: 20px;        /* Distancia desde el borde derecho */
+    width: 120px;       /* Ajusta el ancho según te guste */
+    height: auto;       /* Mantiene la proporción */
+    z-index: 100;       /* Asegura que quede por encima de otros elementos */
+}

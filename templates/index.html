@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <img src="" alt="">
+    <img src="{{ url_for('static', filename='img/Logo.jpg') }}" class="logo-esquina">
     <h1>🪴IA Aplicada al control de un Invernadero</h1>
     
     <div class="dashboard-container">
@@ -40,7 +40,7 @@
             </p>
         </div>
     </div>
-<p>Autores: Gustavo Enrique Martinez Moreno & Danae</p>
+<p>Autores: Gustavo Enrique Martinez Moreno & Danae Hernandez</p>
     <script src="{{ url_for('static', filename='app.js') }}"></script>
 </body>
 </html>
